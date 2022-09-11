@@ -8,13 +8,16 @@ USAGE
 
 COMMANDS
     clear       clears all node_modules from the current directory onwards
+    speak       speaks the text provided as argument
+    copy        copies the content of the file provided as an argument
+    size        gets the size of the provided file
     approve     approves the current pull request
     help, -?    show this help message
 #>
 
 param(
   [Parameter(Position = 0)]
-  [ValidateSet("clear", "approve", "speak", "help")]
+  [ValidateSet("clear", "approve", "speak", "copy", "size", "help")]
   [string]$Command,
 
   [Parameter(Position = 1, ValueFromRemainingArguments = $true)]
@@ -47,6 +50,14 @@ function Speak {
   $sp.Speak($Text) | Out-Null
 }
 
+function Copy-Content {
+  param (
+    [Parameter(Position = 0, Mandatory = $True)]
+    [string]$Text
+  )
+
+  Get-Content $Text | Set-Clipboard 
+}
 
 function Clear-Modules {
 
@@ -69,6 +80,16 @@ function Clear-Modules {
 
 }
 
+function Get-Size {
+
+  param(
+    [Parameter(Position = 0, Mandatory = $False)]
+    [string] $base_dir = ".\"
+  )
+
+  return "{0} MB" -f ((Get-ChildItem $base_dir -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
+}
+
 function Approve-Pr {
   Write-Output "Approving PR"
   if (-not ( which gh -ErrorAction SilentlyContinue )) {
@@ -80,7 +101,9 @@ function Approve-Pr {
 
 switch ($Command) {
   "clear" { Clear-Modules $Rest }
+  "size" { Get-Size $Rest }
   "approve" { Approve-Pr }
   "speak" { Speak $Rest }
+  "copy" { Copy-Content $Rest }
   "help" { Help }
 }
