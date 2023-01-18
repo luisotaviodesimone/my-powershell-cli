@@ -92,7 +92,7 @@ function Get-Size {
 
 function Approve-Pr {
   Write-Output "Approving PR"
-  if (-not ( which gh -ErrorAction SilentlyContinue )) {
+  if (-not ( which gh )) {
     Write-Output 'GitHub CLI is not installed'
     return;
   };
