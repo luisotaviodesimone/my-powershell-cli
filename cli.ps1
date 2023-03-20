@@ -12,12 +12,14 @@ COMMANDS
     copy        copies the content of the file provided as an argument
     size        gets the size of the provided file
     approve     approves the current pull request
+    node        installs node's lts version along with nestjs and yarn cli
+    cpf         generates a random cpf using 4devs api, defaults to AC state and copies to clipboard
     help, -?    show this help message
 #>
 
 param(
   [Parameter(Position = 0)]
-  [ValidateSet("clear", "approve", "speak", "copy", "size", "help")]
+  [ValidateSet("clear", "approve", "speak", "copy", "size", "help", "node", "cpf")]
   [string]$Command,
 
   [Parameter(Position = 1, ValueFromRemainingArguments = $true)]
@@ -96,7 +98,41 @@ function Approve-Pr {
     Write-Output 'GitHub CLI is not installed'
     return;
   };
-  gh pr review --approve -b "![gif](https://i.shipit.today/)"  
+  gh pr review --approve -b "![gif](https://i.shipit.today/)"
+}
+
+function Install-Node-Lts {
+  Write-Output "Starting to download Nodejs LTS version"
+
+  if (-not (which nvm)) {
+    Write-Output 'nvm is not installed'
+    return;
+  }
+
+  if (-not (which sudo)) {
+    Write-Output 'sudo is not installed'
+    return;
+  }
+
+  sudo nvm install lts && sudo nvm use lts && npm i -g @nestjs/cli yarn
+}
+
+function Get-Cpf {
+  param (
+    [Parameter(Position = 0, Mandatory = $False)]
+    [string]$State = "AC"
+  )
+
+  if (-not (which http)) {
+    Write-Output 'httpie is not installed'
+    return;
+  }
+
+  $response = http --form POST https://www.4devs.com.br/ferramentas_online.php content-type:application/x-www-form-urlencoded acao=gerar_cpf pontuacao=S cpf_estado=$State
+
+  $response | Set-Clipboard
+
+  return $response
 }
 
 switch ($Command) {
@@ -106,4 +142,6 @@ switch ($Command) {
   "speak" { Speak $Rest }
   "copy" { Copy-Content $Rest }
   "help" { Help }
+  "node" { Install-Node-Lts }
+  "cpf" { Get-Cpf $Rest }
 }
