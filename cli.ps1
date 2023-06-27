@@ -14,7 +14,7 @@ COMMANDS
     approve     approves the current pull request
     node        installs node's lts version along with nestjs and yarn cli
     cpf         generates a random cpf using 4devs api, defaults to AC state and copies to clipboard
-    git         sets the git user for the provided context
+    git         sets the git user for the provided context (currently only personal and work are supported)
     help, -?    show this help message
 #>
 
