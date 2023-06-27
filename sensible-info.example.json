@@ -1,0 +1,14 @@
+{
+  "personal": {
+    "user": {
+      "name": "personal-github-name-here",
+      "email": "personal-github-email-here@email.com"
+    }
+  },
+  "work": {
+    "user": {
+      "name": "work-github-name-here",
+      "email": "work-github-email-here@email.com"
+    }
+  }
+}
