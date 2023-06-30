@@ -142,7 +142,8 @@ function Set-GitUser {
     [string]$Context
   )
 
-  $sensibleJsonInfo = Get-Content -Raw sensible-info.json | ConvertFrom-Json
+  Write-Host $scriptPath
+  $sensibleJsonInfo = Get-Content -Raw $PSScriptRoot\sensible-info.json | ConvertFrom-Json
 
   if ($Context -eq 'personal') {
     gh auth logout
