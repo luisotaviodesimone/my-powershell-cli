@@ -36,6 +36,7 @@ if (!$Command) {
   exit
 }
 
+# Migrated to my-go-cli
 function Speak {
   param (
     [Parameter(Position = 0, Mandatory = $True)]
@@ -83,6 +84,7 @@ function Clear-Modules {
 
 }
 
+# Migrated to my-go-cli
 function Get-Size {
 
   param(
@@ -118,6 +120,7 @@ function Install-Node-Lts {
   sudo nvm install lts && sudo nvm use lts && npm i -g @nestjs/cli yarn
 }
 
+# Migrated to my-go-cli
 function Get-Cpf {
   param (
     [Parameter(Position = 0, Mandatory = $False)]
@@ -136,6 +139,7 @@ function Get-Cpf {
   return $response
 }
 
+# Migrated to my-go-cli
 function Set-GitUser {
   param (
     [Parameter(Position = 0, Mandatory = $True)]
