@@ -95,6 +95,7 @@ function Get-Size {
   return "{0} MB" -f ((Get-ChildItem $base_dir -Recurse | Measure-Object -Property Length -Sum -ErrorAction Stop).Sum / 1MB)
 }
 
+# Migrated to my-go-cli
 function Approve-Pr {
   Write-Output "Approving PR"
   if (-not ( which gh )) {
