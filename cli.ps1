@@ -63,6 +63,7 @@ function Copy-Content {
   Get-Content $Text | Set-Clipboard 
 }
 
+# Migrated to my-go-cli
 function Clear-Modules {
 
   param(
